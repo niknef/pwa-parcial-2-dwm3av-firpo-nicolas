@@ -54,7 +54,10 @@ function renderPeliculas(peliculas) {
                     <img src="https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" class="card-img-top" alt="${pelicula.title}">
                     <div class="card-body mt-auto">
                         <h3 class="card-title">${pelicula.title}</h3>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#peliculaModal" data-title="${pelicula.title}" data-poster="${pelicula.poster_path}" data-release="${pelicula.release_date}" data-vote="${pelicula.vote_average}" data-overview="${pelicula.overview}">Más info</button>
+                        
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#peliculaModal" onclick='openModal("${pelicula.title}", "${pelicula.poster_path}", "${pelicula.release_date}", "${pelicula.vote_average}", "${pelicula.overview}", "${pelicula.id}")'>Más info</button>
+
+
                     </div>
                 </div>
             </div>
@@ -65,7 +68,7 @@ function renderPeliculas(peliculas) {
 };
 
 //Funcion para abrir el modal
-function openModal(title, posterPath, releaseDate, voteAverage, overview) {
+function openModal(title, posterPath, releaseDate, voteAverage, overview, id) {
     const modalContent = document.getElementById('modalContent');
     modalContent.innerHTML = `
         <div class="modal-header">
@@ -78,11 +81,30 @@ function openModal(title, posterPath, releaseDate, voteAverage, overview) {
                 <img src="https://image.tmdb.org/t/p/w500/${posterPath}" class="img-fluid rounded bor" alt="${title}">
                 <p class="mt-3">${overview}</p>
                 <p>Fecha de lanzamiento: ${releaseDate}</p>
-                
-
             </div>
         </div>
     `;
+/// Guardamos la película en el historial
+const pelicula = {
+    title,
+    posterPath,
+    releaseDate,
+    voteAverage,
+    overview,
+    id
+};
+let historial = JSON.parse(localStorage.getItem('historial')) || [];
+
+const peliculaEncontrada = historial.find(pelicula => pelicula.id === id);
+
+if (!peliculaEncontrada) {
+    historial.push(pelicula);
+    // Actualizamos el historial en localStorage
+    localStorage.setItem('historial', JSON.stringify(historial));
+    console.log(`Pelicula ${title} guardado en el historial.`);
+}else {
+    console.log(`Pelicula ${title} ya existe en el historial.`);
+}
 };
 
 //funcion para redireccionar a la pagina de historial
