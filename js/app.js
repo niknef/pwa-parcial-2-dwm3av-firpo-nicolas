@@ -55,7 +55,8 @@ function renderPeliculas(peliculas) {
                     <div class="card-body mt-auto">
                         <h3 class="card-title">${pelicula.title}</h3>  
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" class="btn btn-outline-primary">Mi lista +</button>
+                            <button type="button" class="btn btn-primary" onclick='agregarALista("${pelicula.id}", "${pelicula.title}")'>Agregar a Mi Lista</button>
+
                             
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#peliculaModal" onclick='openModal("${pelicula.title}", "${pelicula.poster_path}", "${pelicula.release_date}", "${pelicula.vote_average}", "${pelicula.overview}", "${pelicula.id}")'>Más info</button>
                         </div>
@@ -86,8 +87,10 @@ function openModal(title, posterPath, releaseDate, voteAverage, overview, id) {
                 <p>Fecha de lanzamiento: ${releaseDate}</p>
             </div>
         </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick='agregarALista("${id}", "${title}")'>Agregar a Mi Lista</button>
     `;
-/// Guardamos la película en el historial
+// Guardamos la película en el historial
 const pelicula = {
     title,
     posterPath,
@@ -114,6 +117,63 @@ const peliculaEncontrada = historial.find(pelicula => pelicula.id === id);
 function redirectToHistorial() {
     window.location.href = './html/historial.html';
 };
+
+//Funcion para agregar a mi lista
+function agregarALista(id, title) {
+    const miLista = JSON.parse(localStorage.getItem('miLista')) || [];
+
+    // Verificar si la película ya está en la lista
+    const peliculaEnLista = miLista.find(pelicula => pelicula.id === id);
+
+    if (!peliculaEnLista) {
+        miLista.push({ id, title, visto: false });
+        localStorage.setItem('miLista', JSON.stringify(miLista));
+       
+        actualizarLista();
+        console.log(`Película ${title} agregada a la lista.`);
+    } else {
+        console.log(`Película ${title} ya está en la lista.`);
+    }
+};
+
+//Funcion para actualizar la lista
+function actualizarLista() {
+    const miListaElement = document.getElementById('miLista');
+    const miLista = JSON.parse(localStorage.getItem('miLista')) || [];
+
+    // Limpiamos la lista antes de actualizarla
+    miListaElement.innerHTML = '';
+
+    // Recorremos las películas en la lista y las agregamos al HTML
+    miLista.forEach(pelicula => {
+        miListaElement.innerHTML += `
+            <li class="list-group-item">
+                ${pelicula.title}
+                <input type="checkbox" class="form-check-input form-check-input-lg float-end" ${pelicula.visto ? 'checked' : ''} onchange="cambiarEstadoVisto('${pelicula.id}', this.checked)">
+            </li>
+        `;
+    });
+};
+
+
+
+function cambiarEstadoVisto(id, visto) {
+    const miLista = JSON.parse(localStorage.getItem('miLista')) || [];
+
+    // Buscamos la película en la lista
+    const pelicula = miLista.find(pelicula => pelicula.id === id);
+
+    if (pelicula) {
+        pelicula.visto = visto;
+
+        localStorage.setItem('miLista', JSON.stringify(miLista));
+
+        actualizarLista();
+    }
+};
+
+// Llamamos a la función para actualizar la lista cuando se carga la página
+window.onload = actualizarLista;
 
 
 fetchPelicula();
