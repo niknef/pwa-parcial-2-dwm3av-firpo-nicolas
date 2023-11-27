@@ -54,10 +54,7 @@ function renderPeliculas(peliculas) {
                     <img src="https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" class="card-img-top" alt="${pelicula.title}">
                     <div class="card-body mt-auto">
                         <h3 class="card-title">${pelicula.title}</h3>
-                        
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#peliculaModal" onclick='openModal("${pelicula.title}", "${pelicula.poster_path}", "${pelicula.release_date}", "${pelicula.vote_average}", "${pelicula.overview}", "${pelicula.id}")'>Más info</button>
-
-
                     </div>
                 </div>
             </div>
