@@ -53,8 +53,14 @@ function renderPeliculas(peliculas) {
                 <div class="card h-100 mx-auto text-center d-flex flex-column" style="max-width: 18rem;">
                     <img src="https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" class="card-img-top" alt="${pelicula.title}">
                     <div class="card-body mt-auto">
-                        <h3 class="card-title">${pelicula.title}</h3>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#peliculaModal" onclick='openModal("${pelicula.title}", "${pelicula.poster_path}", "${pelicula.release_date}", "${pelicula.vote_average}", "${pelicula.overview}", "${pelicula.id}")'>Más info</button>
+                        <h3 class="card-title">${pelicula.title}</h3>  
+                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-outline-primary">Mi lista +</button>
+                            
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#peliculaModal" onclick='openModal("${pelicula.title}", "${pelicula.poster_path}", "${pelicula.release_date}", "${pelicula.vote_average}", "${pelicula.overview}", "${pelicula.id}")'>Más info</button>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -94,18 +100,20 @@ let historial = JSON.parse(localStorage.getItem('historial')) || [];
 
 const peliculaEncontrada = historial.find(pelicula => pelicula.id === id);
 
-if (!peliculaEncontrada) {
-    historial.push(pelicula);
-    // Actualizamos el historial en localStorage
-    localStorage.setItem('historial', JSON.stringify(historial));
-    console.log(`Pelicula ${title} guardado en el historial.`);
-}else {
-    console.log(`Pelicula ${title} ya existe en el historial.`);
-}
-};
+    if (!peliculaEncontrada) {
+        historial.push(pelicula);
+        // Actualizamos el historial en localStorage
+        localStorage.setItem('historial', JSON.stringify(historial));
+        console.log(`Pelicula ${title} guardado en el historial.`);
+    }else {
+        console.log(`Pelicula ${title} ya existe en el historial.`);
+    }
+    };
 
 //funcion para redireccionar a la pagina de historial
 function redirectToHistorial() {
     window.location.href = './html/historial.html';
 };
+
+
 fetchPelicula();
