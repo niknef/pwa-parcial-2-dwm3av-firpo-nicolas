@@ -1,22 +1,22 @@
 //Creamos una constante con la URL de la API
-const API_URL = 'https://api.themoviedb.org/3/movie/11?api_key=8950ddf8d59170094bc97d0561e3a66f';
+const API_URL = 'https://api.themoviedb.org/3/movie/11?api_key=8950ddf8d59170094bc97d0561e3a66f&language=es-ES';
 
 
-async function fetchPelicula(){
+async function fetchPelicula() {
     try {
         const response = await fetch(API_URL);
+
         if (!response.ok) {
             throw new Error(`Error al obtener datos. Código de estado: ${response.status}`);
         }
+
         const data = await response.json();
-        console.log(data);
-        const peliculas = data.results;
-        console.log(peliculas);
+            console.log("Data:", data);
+        const peliculas = data.results || [];
+            console.log("Peliculas:", peliculas);
+
     } catch (error) {
-        console.error(error);
-    }
-};
-
-
+        console.error("Error:", error.message);
+}};
 
 fetchPelicula();
