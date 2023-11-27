@@ -3,7 +3,6 @@ const btnAnterior = document.getElementById('btnAnterior');
 const btnSiguiente = document.getElementById('btnSiguiente');
 
 //Funciones del pagination
-
 btnAnterior.addEventListener('click', () => {
     if (pagina > 1) {
         pagina--;
@@ -42,18 +41,20 @@ async function fetchPelicula() {
     }
 };
 
+
+//Función para renderizar las peliculas
 function renderPeliculas(peliculas) {
     const container = document.querySelector('#container');
     let html = '';
 
     peliculas.forEach(pelicula => {
         html += `
-        <div class="col">
-                <div class="card h-100 mx-auto text-center d-flex align-items-center" style="max-width: 18rem;">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                <div class="card h-100 mx-auto text-center d-flex flex-column" style="max-width: 18rem;">
                     <img src="https://image.tmdb.org/t/p/w500/${pelicula.poster_path}" class="card-img-top" alt="${pelicula.title}">
-                    <div class="card-body">
+                    <div class="card-body mt-auto">
                         <h3 class="card-title">${pelicula.title}</h3>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#peliculaModal" onclick="openModal('${pelicula.title}', '${pelicula.poster_path}', '${pelicula.release_date}', '${pelicula.vote_average}', '${pelicula.overview}')">Más info</button>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#peliculaModal" data-title="${pelicula.title}" data-poster="${pelicula.poster_path}" data-release="${pelicula.release_date}" data-vote="${pelicula.vote_average}" data-overview="${pelicula.overview}">Más info</button>
                     </div>
                 </div>
             </div>
@@ -84,4 +85,8 @@ function openModal(title, posterPath, releaseDate, voteAverage, overview) {
     `;
 };
 
+//funcion para redireccionar a la pagina de historial
+function redirectToHistorial() {
+    window.location.href = './html/historial.html';
+};
 fetchPelicula();
