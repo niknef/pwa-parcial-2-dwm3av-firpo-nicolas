@@ -1,10 +1,34 @@
+let pagina = 1;
+const btnAnterior = document.getElementById('btnAnterior');
+const btnSiguiente = document.getElementById('btnSiguiente');
 
-//Creamos una constante con la URL de la API
-const API_URL = 'https://api.themoviedb.org/3/movie/popular?api_key=8950ddf8d59170094bc97d0561e3a66f&language=es-ES';
+//Funciones del pagination
+
+btnAnterior.addEventListener('click', () => {
+    if (pagina > 1) {
+        pagina--;
+        fetchPelicula();
+    }
+});
+
+btnSiguiente.addEventListener('click', () => { 
+    if(pagina < 1000){
+        pagina++;
+        fetchPelicula();
+    }
+   
+});
+
+
+
 
 
 async function fetchPelicula() {
     try {
+
+        //Creamos una constante con la URL de la API
+        const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=8950ddf8d59170094bc97d0561e3a66f&language=es-ES&page=${pagina}`;
+
         const response = await fetch(API_URL);
 
         if (!response.ok) {
