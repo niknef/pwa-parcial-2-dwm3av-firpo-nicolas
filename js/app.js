@@ -118,6 +118,11 @@ function redirectToHistorial() {
     window.location.href = './html/historial.html';
 };
 
+//funcion para redireccionar a la pagina de mi cuenta
+function redirectToPerfil() {
+    window.location.href = './html/perfil.html';
+};
+
 //Funcion para agregar a mi lista
 function agregarALista(id, title) {
     const miLista = JSON.parse(localStorage.getItem('miLista')) || [];

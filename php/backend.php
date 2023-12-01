@@ -12,8 +12,7 @@ function obtenerDatosUsuario($email) {
     }
 }
 
-// Función para agregar una nueva película al usuario
-function agregarPelicula($email, $nombre, $apellido, $materia, $comision) {
+function agregarDatos($email, $nombre, $apellido, $materia, $comision) {
    
     if ($email === "demo@davinci.com.ar") {
         $datosUsuario = obtenerDatosUsuario($email);
@@ -40,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $comision = $_POST["comision"];
 
     // Agregar el nuevo dato al usuario
-    $exito = agregarPelicula($email, $nombre, $apellido, $materia, $comision);
+    $exito = agregarDatos($email, $nombre, $apellido, $materia, $comision);
 
     // Devolver una respuesta JSON indicando el resultado
     header("Content-Type: application/json");
