@@ -18,6 +18,17 @@ btnSiguiente.addEventListener('click', () => {
    
 });
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+        .register("./js/sw.js")
+        .then(() => {
+            console.log("Service worker registered");
+        })
+        .catch((error) => {
+            console.log("Failed to register service worker", error);
+        });
+};
+
 //Función para obtener los datos de la API
 async function fetchPelicula() {
     try {
