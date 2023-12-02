@@ -2,6 +2,30 @@ let pagina = 1;
 const btnAnterior = document.getElementById('btnAnterior');
 const btnSiguiente = document.getElementById('btnSiguiente');
 
+//Boton instalar pwa
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  // Previene que el navegador muestre la pantalla de instalación
+  event.preventDefault();
+
+  // Almacena el evento para usarlo más adelante
+  deferredPrompt = event;
+
+  // Muestra el botón de instalación
+  showInstallButton();
+});
+
+function showInstallButton() {
+  const installButton = document.getElementById('install-button');
+  installButton.style.display = 'block';
+
+  installButton.addEventListener('click', () => {
+    // Muestra la pantalla de instalación cuando se hace clic en el botón
+    deferredPrompt.prompt();
+  });
+}
+
 //Funciones del pagination
 btnAnterior.addEventListener('click', () => {
     if (pagina > 1) {
